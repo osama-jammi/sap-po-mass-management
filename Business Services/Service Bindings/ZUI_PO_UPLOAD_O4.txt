@@ -1,0 +1,4 @@
+Object Type: Service Binding
+Name: ZUI_PO_UPLOAD_O4
+Binding Type: OData V4 - UI
+Service Definition: ZUI_PO_UPLOAD

@@ -1,0 +1,41 @@
+managed implementation in class zbp_i_po_header unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_PO_HEADER alias POHeader
+persistent table zpo_header
+draft table zpo_header_d
+lock master total etag LastChangedAt
+authorization master ( instance )
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+  association _Item { create; with draft; }
+  
+  field ( numbering : managed, readonly ) PoUuid;
+  field ( readonly ) PoNumber, Status, Message, CreatedAt, CreatedBy, LastChangedAt, LastChangedBy, LocalLastChangedAt;
+
+  action ( features : instance ) createPurchaseOrder result [1] $self;
+  
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+}
+
+define behavior for ZI_PO_ITEM alias POItem
+persistent table zpo_item
+draft table zpo_item_d
+lock dependent by _Header
+authorization dependent by _Header
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+  field ( readonly ) PoUuid;
+  field ( numbering : managed, readonly ) ItemUuid;
+  association _Header { with draft; }
+}

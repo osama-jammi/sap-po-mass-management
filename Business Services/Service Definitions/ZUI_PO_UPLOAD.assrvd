@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service Definition - PO Upload'
+define service ZUI_PO_UPLOAD {
+  expose ZC_PO_HEADER as POHeader;
+  expose ZC_PO_ITEM as POItem;
+}
